@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPBC Enquiry System — Community Pro Bono Centre</title>
+  <style>
+    /* CSS Reset & Variables adhering strictly to >= 4.5:1 contrast */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg: #f8fafc;
+      --color-card-bg: #ffffff;
+      --color-text-main: #0f172a;        /* Contrast > 14:1 against white */
+      --color-text-muted: #334155;       /* Contrast > 7:1 against white */
+      --color-border: #cbd5e1;
+      --color-border-focus: #1d4ed8;
+      --color-primary: #1d4ed8;          /* Deep blue: contrast 8.5:1 against white */
+      --color-primary-hover: #1e40af;
+      --color-error-text: #991b1b;       /* Contrast > 7:1 against error bg */
+      --color-error-bg: #fef2f2;
+      --color-error-border: #f87171;
+      --color-success-bg: #f0fdf4;
+      --color-success-text: #14532d;     /* Contrast > 9:1 against success bg */
+      --color-success-border: #86efac;
+      --color-notice-bg: #f1f5f9;
+      --color-notice-border: #94a3b8;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--color-bg);
+      color: var(--color-text-main);
+      line-height: 1.5;
+      padding: 24px 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    /* Header styling */
+    header {
+      background-color: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Browser enquiry counter */
+    .counter-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: #e2e8f0;
+      color: #0f172a;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 1px solid #94a3b8;
+    }
+
+    /* Main Card */
+    .card {
+      background-color: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Form Styles */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-legend,
+    label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-main);
+      display: block;
+    }
+
+    .help-text {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--color-text-main);
+      background-color: #ffffff;
+      border: 1.5px solid var(--color-border);
+      border-radius: 6px;
+      transition: border-color 0.15s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--color-border-focus);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.2);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: normal;
+      color: var(--color-text-main);
+      cursor: pointer;
+    }
+
+    input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-primary);
+      cursor: pointer;
+    }
+
+    .date-conditional-wrapper {
+      margin-top: 10px;
+      padding-left: 26px;
+    }
+
+    /* Notice box above submit button */
+    .legal-notice {
+      background-color: var(--color-notice-bg);
+      border-left: 4px solid var(--color-notice-border);
+      padding: 14px 16px;
+      border-radius: 4px;
+      font-size: 1rem; /* Same size of text as the form */
+      color: var(--color-text-main);
+      line-height: 1.5;
+    }
+
+    /* Button */
+    .submit-btn,
+    .reset-view-btn {
+      background-color: var(--color-primary);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.15s ease;
+      width: 100%;
+    }
+
+    .submit-btn:hover,
+    .reset-view-btn:hover {
+      background-color: var(--color-primary-hover);
+    }
+
+    .submit-btn:focus,
+    .reset-view-btn:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.4);
+    }
+
+    /* Error Message Box */
+    .error-box {
+      background-color: var(--color-error-bg);
+      border: 1.5px solid var(--color-error-border);
+      color: var(--color-error-text);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 1rem;
+      display: none;
+    }
+
+    .error-box ul {
+      margin-left: 20px;
+      margin-top: 6px;
+    }
+
+    /* Confirmation Box */
+    .confirmation-box {
+      display: none;
+      background-color: var(--color-success-bg);
+      border: 1.5px solid var(--color-success-border);
+      color: var(--color-success-text);
+      padding: 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .confirmation-box h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-success-text);
+      margin-bottom: 12px;
+    }
+
+    .ref-highlight {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      background-color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1.5px solid #86efac;
+      display: inline-block;
+      margin: 10px 0 16px 0;
+      letter-spacing: 0.05em;
+    }
+
+    .confirmation-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #064e3b;
+      margin-bottom: 20px;
+    }
+
+    .confirmation-text strong {
+      color: #022c22;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header with Browser Enquiry Count -->
+    <header>
+      <h1>Community Pro Bono Centre</h1>
+      <p class="subtitle">Enquiry Submission Form</p>
+      <div id="counterContainer" class="counter-badge" aria-live="polite">
+        Enquiries submitted in this browser: <span id="enquiryCount" style="margin-left: 6px; font-weight: 700;">0</span>
+      </div>
+    </header>
+
+    <main class="card">
+      <!-- Error Summary Box -->
+      <div id="errorSummary" class="error-box" role="alert" aria-atomic="true">
+        <p id="errorTitle" style="font-weight: 600;">Please fix the following issue(s):</p>
+        <ul id="errorList"></ul>
+      </div>
+
+      <!-- Confirmation Panel (shown after submission) -->
+      <div id="confirmationPanel" class="confirmation-box" role="region" aria-live="polite">
+        <h2>Enquiry Submitted Successfully</h2>
+        <p>Your enquiry reference number is:</p>
+        <div id="referenceDisplay" class="ref-highlight"></div>
+        <p class="confirmation-text">
+          The Centre will make contact within three working days. If nobody has contacted you within this time, please call the Centre at <strong>6000 0000</strong>.
+        </p>
+        <button type="button" id="newEnquiryBtn" class="reset-view-btn">Submit another enquiry</button>
+      </div>
+
+      <!-- Enquiry Form -->
+      <form id="enquiryForm" novalidate>
+        <!-- 1. Who is submitting -->
+        <fieldset class="form-group">
+          <legend class="form-legend">Who is submitting this enquiry? <span style="color: #991b1b;">*</span></legend>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="submittedBy" value="enquirer" checked>
+              The enquirer
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="submittedBy" value="front_desk">
+              Front desk (on behalf of the enquirer)
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 2. Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name <span style="color: #991b1b;">*</span></label>
+          <input type="text" id="fullName" name="fullName" required autocomplete="name" placeholder="e.g. Tan Ah Seng">
+        </div>
+
+        <!-- 3. Phone Number -->
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" autocomplete="tel" placeholder="e.g. 9123 4567">
+          <p class="help-text">Provide either a phone number, an email address, or both.</p>
+        </div>
+
+        <!-- 4. Email Address -->
+        <div class="form-group">
+          <label for="emailAddress">Email Address</label>
+          <input type="email" id="emailAddress" name="emailAddress" autocomplete="email" placeholder="e.g. name@example.com">
+          <p class="help-text">Provide either a phone number, an email address, or both.</p>
+        </div>
+
+        <!-- 5. Preferred Language -->
+        <div class="form-group">
+          <label for="preferredLanguage">Preferred Language <span style="color: #991b1b;">*</span></label>
+          <select id="preferredLanguage" name="preferredLanguage" required>
+            <option value="">-- Please select a language --</option>
+            <option value="English">English</option>
+            <option value="Mandarin">Mandarin</option>
+            <option value="Malay">Malay</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- 6. Description of the Problem -->
+        <div class="form-group">
+          <label for="problemDescription">Description of the Problem <span style="color: #991b1b;">*</span></label>
+          <textarea id="problemDescription" name="problemDescription" rows="4" required placeholder="Describe what has happened and what help you are seeking..."></textarea>
+        </div>
+
+        <!-- 7. Known Deadline or Court Date -->
+        <fieldset class="form-group">
+          <legend class="form-legend">Is a deadline or court date known? <span style="color: #991b1b;">*</span></legend>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="hasDeadline" value="no" checked>
+              No
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="hasDeadline" value="yes">
+              Yes
+            </label>
+          </div>
+          <div id="deadlineDateContainer" class="date-conditional-wrapper hidden">
+            <label for="deadlineDate" style="font-weight: 500; font-size: 0.95rem; margin-bottom: 4px;">Deadline or court date <span style="color: #991b1b;">*</span></label>
+            <input type="date" id="deadlineDate" name="deadlineDate">
+          </div>
+        </fieldset>
+
+        <!-- Short Notice (Above Submit Button, same font size as form) -->
+        <div class="legal-notice" role="note">
+          The details you provide are used by the Centre to assess your matter and contact you. The Centre does not give legal advice through this form.
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="submit-btn">Submit Enquiry</button>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    (function() {
+      // Storage keys
+      const STORAGE_KEY_ENQUIRIES = 'cpbc_enquiries';
+
+      // Elements
+      const enquiryCountEl = document.getElementById('enquiryCount');
+      const enquiryForm = document.getElementById('enquiryForm');
+      const errorSummary = document.getElementById('errorSummary');
+      const errorList = document.getElementById('errorList');
+      const confirmationPanel = document.getElementById('confirmationPanel');
+      const referenceDisplay = document.getElementById('referenceDisplay');
+      const newEnquiryBtn = document.getElementById('newEnquiryBtn');
+      const deadlineDateContainer = document.getElementById('deadlineDateContainer');
+      const deadlineDateInput = document.getElementById('deadlineDate');
+      const hasDeadlineRadios = document.getElementsByName('hasDeadline');
+
+      // Helper: Retrieve enquiries from localStorage
+      function getEnquiries() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY_ENQUIRIES);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          console.error('Failed to read from localStorage', e);
+          return [];
+        }
+      }
+
+      // Update the counter on screen
+      function updateEnquiryCount() {
+        const enquiries = getEnquiries();
+        enquiryCountEl.textContent = enquiries.length;
+      }
+
+      // Generate reference number CPBC-xxxx (padded 4 digits)
+      function generateReferenceNumber(existingEnquiries) {
+        let maxNum = 0;
+        for (let i = 0; i < existingEnquiries.length; i++) {
+          const ref = existingEnquiries[i].reference || '';
+          const match = ref.match(/^CPBC-(\d{4})$/);
+          if (match) {
+            const num = parseInt(match[1], 10);
+            if (num > maxNum) {
+              maxNum = num;
+            }
+          }
+        }
+        const nextNum = maxNum + 1;
+        const padded = String(nextNum).padStart(4, '0');
+        return 'CPBC-' + padded;
+      }
+
+      // Handle deadline conditional field toggle
+      for (let i = 0; i < hasDeadlineRadios.length; i++) {
+        hasDeadlineRadios[i].addEventListener('change', function() {
+          if (this.value === 'yes' && this.checked) {
+            deadlineDateContainer.classList.remove('hidden');
+            deadlineDateInput.setAttribute('required', 'required');
+          } else if (this.value === 'no' && this.checked) {
+            deadlineDateContainer.classList.add('hidden');
+            deadlineDateInput.removeAttribute('required');
+            deadlineDateInput.value = '';
+          }
+        });
+      }
+
+      // Form validation & submission
+      enquiryForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Clear previous errors
+        errorSummary.style.display = 'none';
+        errorList.innerHTML = '';
+        const errors = [];
+
+        // Values
+        const fullName = document.getElementById('fullName').value.trim();
+        const phoneNumber = document.getElementById('phoneNumber').value.trim();
+        const emailAddress = document.getElementById('emailAddress').value.trim();
+        const preferredLanguage = document.getElementById('preferredLanguage').value;
+        const problemDescription = document.getElementById('problemDescription').value.trim();
+        
+        let submittedBy = 'enquirer';
+        const submittedByChecked = document.querySelector('input[name="submittedBy"]:checked');
+        if (submittedByChecked) {
+          submittedBy = submittedByChecked.value;
+        }
+
+        let hasDeadline = 'no';
+        const hasDeadlineChecked = document.querySelector('input[name="hasDeadline"]:checked');
+        if (hasDeadlineChecked) {
+          hasDeadline = hasDeadlineChecked.value;
+        }
+        const deadlineDate = deadlineDateInput.value;
+
+        // Validation rules
+        if (!fullName) {
+          errors.push('Full name is required.');
+        }
+
+        // Criterion 1: Must have either phone number or email address, cannot have neither
+        if (!phoneNumber && !emailAddress) {
+          errors.push('Please provide at least one contact method: a phone number, an email address, or both.');
+        }
+
+        if (!preferredLanguage) {
+          errors.push('Preferred language is required.');
+        }
+
+        if (!problemDescription) {
+          errors.push('Description of the problem is required.');
+        }
+
+        if (hasDeadline === 'yes' && !deadlineDate) {
+          errors.push('Please enter the known deadline or court date.');
+        }
+
+        if (errors.length > 0) {
+          for (let i = 0; i < errors.length; i++) {
+            const li = document.createElement('li');
+            li.textContent = errors[i];
+            errorList.appendChild(li);
+          }
+          errorSummary.style.display = 'block';
+          errorSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+
+        // Generate reference number
+        const existing = getEnquiries();
+        const reference = generateReferenceNumber(existing);
+
+        // Security requirement 4: synthetic enquiry stored as pure JSON data
+        const newEnquiry = {
+          reference: reference,
+          submittedBy: submittedBy,
+          fullName: fullName,
+          phoneNumber: phoneNumber || null,
+          emailAddress: emailAddress || null,
+          preferredLanguage: preferredLanguage,
+          problemDescription: problemDescription,
+          hasDeadline: hasDeadline === 'yes',
+          deadlineDate: hasDeadline === 'yes' ? deadlineDate : null,
+          submittedAt: new Date().toISOString()
+        };
+
+        // Save enquiry in localStorage
+        existing.push(newEnquiry);
+        try {
+          localStorage.setItem(STORAGE_KEY_ENQUIRIES, JSON.stringify(existing));
+        } catch (storageErr) {
+          console.error('Failed to save enquiry', storageErr);
+        }
+
+        // Update counter display
+        updateEnquiryCount();
+
+        // Show confirmation panel, hide form
+        referenceDisplay.textContent = reference;
+        enquiryForm.style.display = 'none';
+        confirmationPanel.style.display = 'block';
+        confirmationPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Reset form inputs
+        enquiryForm.reset();
+        deadlineDateContainer.classList.add('hidden');
+        deadlineDateInput.removeAttribute('required');
+      });
+
+      // Reset view to submit another enquiry
+      newEnquiryBtn.addEventListener('click', function() {
+        confirmationPanel.style.display = 'none';
+        enquiryForm.style.display = 'flex';
+        errorSummary.style.display = 'none';
+        errorList.innerHTML = '';
+        enquiryForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      // Initial load
+      updateEnquiryCount();
+    })();
+  </script>
+</body>
+</html>

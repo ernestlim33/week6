@@ -2,9 +2,9 @@
 
 **The shared starting point for everyone's new system.**
 Built from the Week 3 model answer, and written to fix what the Week 3 markup found in
-`CPBC-PRD-v0`. Version 1.1.
+`CPBC-PRD-v0`. Version 1.2.
 
-You build story S1 from this document in the Week 5 lab. Story S2 is the Week 5
+You build story S1 from this document in the Week 6 lab. Story S2 is the Week 6
 homework. The backlog in §5 is the order we build in, one story at a time.
 
 ---
@@ -83,8 +83,8 @@ Built in this order. Stories above the MVP line are the MVP.
 
 | # | Role | Story | Sprint |
 |---|---|---|---|
-| **S1** | Enquirer, front desk | As an enquirer, or the front desk acting for one, I want to submit an enquiry with only the details the Centre needs, and get a reference, so that I can ask for help without an email address and know it arrived | **Week 5 lab** |
-| **S2** | Centre Manager | As the Centre Manager, I want to see every new enquiry in one list, with any time-critical enquiry at the top, so that urgent matters reach a volunteer first | **Week 5 homework** |
+| **S1** | Enquirer, front desk | As an enquirer, or the front desk acting for one, I want to submit an enquiry with only the details the Centre needs, and get a reference, so that I can ask for help without an email address and know it arrived | **Week 6 lab** |
+| **S2** | Centre Manager | As the Centre Manager, I want to see every new enquiry in one list, with any time-critical enquiry at the top, so that urgent matters reach a volunteer first | **Week 6 homework** |
 | S3 | Centre Manager | As the Centre Manager, I want each enquiry given a suggested area of law, which I confirm or change, so that no enquiry is routed on a guess nobody checked | Later |
 | S4 | Centre Manager | As the Centre Manager, I want an enquiry with a limitation deadline inside thirty days marked time-critical, so that it reaches a volunteer while something can still be done | Later |
 | S5 | Centre Manager | As the Centre Manager, I want to assign an enquiry to a volunteer who works in its area of law, so that nobody is given a matter outside their practice | Later |
@@ -126,10 +126,27 @@ Each criterion can be checked by someone who was not in the room.
 
 ### S2 — acceptance criteria
 
-**Written by you, in the Week 5 homework.** Use S1's criteria as the model.
+Each criterion can be checked by someone who was not in the room.
 
-S2 says "time-critical" and does not define it. Decide what it means, and write that
-into a criterion. S4 is where the full rule is built later.
+The Centre has decided what "time-critical" means: a deadline or court date that is
+today or within the next 30 days. S2 shows it in the browser. S4 makes the server
+decide it, from Week 7.
+
+1. The page has a link labelled "Centre Manager's list". It opens the list. The list
+   has a link back to the enquiry form. The form and the list are never on screen at
+   the same time.
+2. The list shows every enquiry submitted in this browser, one per row. Each row shows
+   the reference, the full name, the date and time submitted, and the deadline or court
+   date if one was given.
+3. An enquiry whose deadline or court date is today, or within the next 30 days, is
+   marked "Time-critical". Time-critical enquiries appear above all enquiries that are
+   not, earliest deadline first.
+4. An enquiry whose deadline or court date has already passed is marked "Deadline
+   passed". These appear at the very top of the list, above the time-critical ones.
+5. All other enquiries appear below, newest first.
+6. When no enquiries have been submitted in this browser, the list says "No enquiries
+   yet."
+7. S1 still works: S1's criteria 1 and 5 still pass after S2 is added.
 
 ## §6 Data
 
@@ -155,9 +172,9 @@ named.
 
 - **Built by an AI agent, one story at a time.** Each story is checked against its
   criteria before the next one starts.
-- **Until Week 6 — a single HTML file.** No server, no database, no installation.
+- **Until Week 7 — a single HTML file.** No server, no database, no installation.
   Enquiries are kept in the browser's own storage, on one computer only. This is a
-  prototype, not the Centre's record. From Week 6 the system has a server; from Week 8,
+  prototype, not the Centre's record. From Week 7 the system has a server; from Week 8,
   a database.
 - **Synthetic data only.** No real person's details are ever entered.
 - **Retention.** How long enquiries are kept, and when they are deleted, is to be
@@ -186,7 +203,7 @@ even though some of it only applies once there is a server.
 4. Nothing an enquirer types is ever run as code, in the browser or on the server.
    *(From S1, and checked again in Week 12.)*
 5. Outside code the system depends on is listed, and checked against published
-   security advisories before each release. *(From Week 6.)*
+   security advisories before each release. *(From Week 7.)*
 
 ---
 
@@ -196,3 +213,4 @@ even though some of it only applies once there is a server.
 |---|---|---|
 | 1.0 | 26 Sep 2026 | First version, for the Week 4 lab |
 | 1.1 | 2 Oct 2026 | S1 and S2 move to Week 5, because the Week 4 build did not run. Nothing else changed |
+| 1.2 | 13 Oct 2026 | S1 and S2 move to Week 6. S2's acceptance criteria written, including what "time-critical" means. The server arrives in Week 7 |

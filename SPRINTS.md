@@ -14,15 +14,16 @@ It matters for three reasons.
 2. **It is evidence.** "We tested it" is a claim. A record that names each criterion,
    how it was checked, and what was still not met, is evidence that someone reviewed
    the work.
-3. **It is the handover.** Anyone who picks up your system later can see what was
-   promised, what was checked, and what is still open.
+3. **It is what the Centre accepts.** Under §8 of `prd.md`, a story is done when every
+   criterion has been checked and recorded as met, and the record is tagged. This file
+   is that record.
 
 Write it as you go, not afterwards. A criterion marked "not met", with the reason, is
 worth more than eight ticks nobody can stand behind.
 
 ---
 
-## Sprint 1 — story S1 (in the Week 5 lab)
+## Sprint 1 — story S1 (in the Week 6 lab)
 
 ### The story
 
@@ -30,10 +31,16 @@ As an enquirer, or the front desk acting for one, I want to submit an enquiry wi
 only the details the Centre needs, and get a reference, so that I can ask for help
 without an email address and know it arrived.
 
+### The prompt I gave the agent
+
+### The assumptions the agent listed
+
+Write down any you did not expect. Each one is a place where the PRD was silent.
+
 ### The acceptance criteria
 
-The criteria are in §5 of `prd.md`. Try each one. Write met or not met, and how you
-checked it.
+The full criteria are in §5 of `prd.md`. Try each one. Write met or not met, and how
+you checked it.
 
 | # | Criterion (short) | Met? | How I checked |
 |---|---|---|---|
@@ -44,13 +51,7 @@ checked it.
 | 5 | Reference `CPBC-` and four digits, different each time | | |
 | 6 | Three working days, and the phone number | | |
 | 7 | Count survives a reload; nobody's details shown | | |
-| 8 | Contrast at least 4.5 to 1 | | |
-
-### The prompt I gave the agent
-
-### The assumptions the agent listed
-
-Write down any you did not expect. Each one is a place where the PRD was silent.
+| 8 | Contrast at least 4.5 to 1 | Not met — not checked by me | The facilitator checked the demo build, not mine |
 
 ### What I found
 
@@ -67,38 +68,27 @@ Tag: `v0.1`
 As the Centre Manager, I want to see every new enquiry in one list, with any
 time-critical enquiry at the top, so that urgent matters reach a volunteer first.
 
+### The prompt I gave the agent
+
+### The assumptions the agent listed
+
 ### The acceptance criteria
 
-Write at least four. Use S1's criteria as the model. Each one must be checkable by
-someone who was not in the room.
+The full criteria are in §5 of `prd.md`. Try each one, using the five test enquiries on
+the lab page. Write met or not met, and how you checked it.
 
-S2 says "time-critical" but does not say what it means. One of your criteria must
-decide it.
-
-| # | Criterion | Met? | How I checked |
+| # | Criterion (short) | Met? | How I checked |
 |---|---|---|---|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-
-### The prompt I gave the agent
+| 1 | A "Centre Manager's list" link; form and list never on screen together | | |
+| 2 | One row per enquiry: reference, name, date and time submitted, deadline | | |
+| 3 | Deadline within 30 days marked "Time-critical", above the rest, earliest first | | |
+| 4 | Deadline passed marked "Deadline passed", at the very top | | |
+| 5 | All others below, newest first | | |
+| 6 | "No enquiries yet." when there are none | | |
+| 7 | S1's criteria 1 and 5 still pass | | |
 
 ### What I found
 
 Anything the agent did that nobody asked for:
 
-Does S1 still work? (Try S1's criteria 1 and 5 again.)
-
-### What I changed in `prd.md`
-
-- §5:
-- §6:
-
 Tag: `v0.2`
-
----
-
-## Licence
-
-I chose ... because ...
